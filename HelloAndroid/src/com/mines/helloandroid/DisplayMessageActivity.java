@@ -12,7 +12,7 @@ public class DisplayMessageActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_display_message);
+        //setContentView(R.layout.activity_display_message);
         
         //Gets the message from the Intent, made in MainActivity
         Intent intent = getIntent();
