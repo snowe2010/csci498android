@@ -1,40 +1,26 @@
 package com.mines.helloandroid;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.Button;
+import java.util.Date;
 
-public class MainActivity extends Activity {
-
-	public static final String EXTRA_MESSAGE = "com.mines.helloandroid.MESSAGE";
-	
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_main, menu);
-        return true;
-    }
+public class MainActivity extends Activity implements View.OnClickListener {
+  Button button;
+  @Override
+  public void onCreate(Bundle icicle) {
+    super.onCreate(icicle);
+    button=new Button(this);
     
-    /** Called when the user clicks the Send button denoted by the "android:onClick="sendMessage" " part of the
-     * button attribute
-     * 1. the method must be public
-     * 2. Have a void return value
-     * 3. Have a View as the only parameter (this will be the view that was clicked
-     */
-    public void sendMessage(View view) {
-    	// Do something in relkdfjl
-    	Intent intent = new Intent(this, DisplayMessageActivity.class);
-    	EditText editText = (EditText) findViewById(R.id.edit_message);
-    	String message = editText.getText().toString();
-    	intent.putExtra(EXTRA_MESSAGE, message);
-    	startActivity(intent);
-    }
+    button.setOnClickListener(this);
+    updateTime();
+    setContentView(button);
+  }
+  public void onClick(View view) {
+    updateTime();
+  }
+  private void updateTime() {
+    button.setText(new Date().toString());
+  }
 }
