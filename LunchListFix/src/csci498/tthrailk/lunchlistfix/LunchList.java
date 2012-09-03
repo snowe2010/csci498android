@@ -8,16 +8,18 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 
 public class LunchList extends Activity {
 	
 	List<Restaurant> restaurantList = new ArrayList<Restaurant>();
 	ArrayAdapter<Restaurant> adapter = null;
+	AutoCompleteTextView oRestaurantsAddresses;
 	RadioGroup types;
 	
     @Override
@@ -31,10 +33,15 @@ public class LunchList extends Activity {
         Button save = (Button) findViewById(R.id.save);
         save.setOnClickListener(onSave);
         
-        ListView list = (ListView) findViewById(R.id.restaurants);
+        Spinner list = (Spinner) findViewById(R.id.restaurants);
         adapter = new ArrayAdapter<Restaurant>(this, android.R.layout.simple_list_item_1, restaurantList);
         list.setAdapter(adapter);
+
         
+		oRestaurantsAddresses = (AutoCompleteTextView) findViewById(R.id.addr);
+		oRestaurantsAddresses.setAdapter(adapter);
+		
+
     }
 
     @Override
@@ -87,8 +94,8 @@ public class LunchList extends Activity {
 		public void onClick(View v) {
 			Restaurant r = new Restaurant();
 			EditText name = (EditText) findViewById(R.id.name);
-			EditText address = (EditText) findViewById(R.id.addr);
-			
+			AutoCompleteTextView address = (AutoCompleteTextView) findViewById(R.id.addr);
+
 			r.setName(name.getText().toString());
 			r.setAddress(address.getText().toString());
 			
@@ -105,7 +112,6 @@ public class LunchList extends Activity {
 			}
 			
 			adapter.add(r);
-			
 		}
 	};
 }
