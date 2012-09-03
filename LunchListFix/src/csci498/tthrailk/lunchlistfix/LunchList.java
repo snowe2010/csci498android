@@ -33,7 +33,7 @@ public class LunchList extends Activity {
 			EditText address = (EditText) findViewById(R.id.addr);
 			
 			r.setName(name.getText().toString());
-			
+			r.setAddress(address.getText().toString());
 		}
 	};
 }
