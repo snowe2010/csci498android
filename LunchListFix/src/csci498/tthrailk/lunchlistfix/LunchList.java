@@ -48,7 +48,28 @@ public class LunchList extends Activity {
     	RadioButton ecButton3 = new RadioButton(this);
     	ecButton3.setText(R.string.ec_radio_button_3);
     	types.addView(ecButton3);
-    	 
+    	
+    	RadioButton addB1 = new RadioButton(this);
+    	RadioButton addB2 = new RadioButton(this);
+    	RadioButton addB3 = new RadioButton(this);
+    	RadioButton addB4 = new RadioButton(this);
+    	RadioButton addB5 = new RadioButton(this);
+    	RadioButton addB6 = new RadioButton(this);
+
+    	addB1.setText("extra");
+    	addB2.setText("extra2");
+    	addB3.setText("extra3");
+    	addB4.setText("extra4");
+    	addB5.setText("extra5");
+    	addB6.setText("extra6");
+    	
+    	types.addView(addB1);
+    	types.addView(addB2);
+    	types.addView(addB3);
+    	types.addView(addB4);
+    	types.addView(addB5);
+    	types.addView(addB6);
+    	
     	types.check(ecButton1.getId());
     }
     
