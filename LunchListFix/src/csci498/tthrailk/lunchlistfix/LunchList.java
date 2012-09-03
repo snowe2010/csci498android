@@ -1,11 +1,12 @@
 package csci498.tthrailk.lunchlistfix;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -13,7 +14,7 @@ import android.widget.RadioGroup;
 
 public class LunchList extends Activity {
 	
-	Restaurant r = new Restaurant();
+	List<Restaurant> restaurantList = new ArrayList<Restaurant>();
 	RadioGroup types;
 	
     @Override
@@ -49,7 +50,7 @@ public class LunchList extends Activity {
     	ecButton3.setText(R.string.ec_radio_button_3);
     	types.addView(ecButton3);
     	
-    	RadioButton addB1 = new RadioButton(this);
+/*    	RadioButton addB1 = new RadioButton(this);
     	RadioButton addB2 = new RadioButton(this);
     	RadioButton addB3 = new RadioButton(this);
     	RadioButton addB4 = new RadioButton(this);
@@ -69,13 +70,14 @@ public class LunchList extends Activity {
     	types.addView(addB4);
     	types.addView(addB5);
     	types.addView(addB6);
-    	
+    	*/
     	types.check(ecButton1.getId());
     }
     
     private View.OnClickListener onSave = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
+			Restaurant r = new Restaurant();
 			EditText name = (EditText) findViewById(R.id.name);
 			EditText address = (EditText) findViewById(R.id.addr);
 			
