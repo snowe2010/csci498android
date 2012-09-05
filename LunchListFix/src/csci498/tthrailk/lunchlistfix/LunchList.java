@@ -24,7 +24,7 @@ public class LunchList extends Activity {
 	
 	List<Restaurant> restaurantList = new ArrayList<Restaurant>();
 	RestaurantAdapter adapter 		= null;
-	AutoCompleteTextView oRestaurantsAddresses;
+	//AutoCompleteTextView oRestaurantsAddresses;
 	RadioGroup types;
 	
     @Override
@@ -127,28 +127,21 @@ public class LunchList extends Activity {
 		}
 		
 		public View getView(int position, View convertView, ViewGroup parent) {
-			View row = convertView;
+			
+			View row 				= convertView;
+			RestaurantHolder holder = null;
+			
 			if (row == null) {
 				LayoutInflater inflater = getLayoutInflater();
 				row = inflater.inflate(R.layout.row, null);
+				holder = new RestaurantHolder(row);
+				row.setTag(holder);
+			}
+			else {
+				holder = (RestaurantHolder) row.getTag();
 			}
 			
-			Restaurant r = restaurantList.get(position);
-			
-			((TextView) row.findViewById(R.id.title)).setText(r.getName());
-			((TextView) row.findViewById(R.id.address)).setText(r.getAddress());
-			
-			ImageView icon = (ImageView) row.findViewById(R.id.icon);
-			
-			if (r.getType().equals("sit_down")) {
-				icon.setImageResource(R.drawable.ball_red);
-			}
-			else if (r.getType().equals("take_out")) {
-				icon.setImageResource(R.drawable.ball_yellow);
-			}
-			else { 
-				icon.setImageResource(R.drawable.ball_green);
-			}
+			holder.populateFrom(restaurantList.get(position));
 			
 			return(row);
 		}
