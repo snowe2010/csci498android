@@ -3,7 +3,10 @@ package csci498.tthrailk.lunchlistfix;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.R.color;
 import android.app.Activity;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -164,12 +167,21 @@ public class LunchList extends Activity {
 			
 			if (r.getType().equals("sit_down")) {
 				icon.setImageResource(R.drawable.ball_red);
+				name.setBackgroundColor(color.darker_gray);
+				if (name.getText().toString().contains("a")) {
+					name.setAllCaps(true);
+				}
 			}
 			else if (r.getType().equals("take_out")) {
 				icon.setImageResource(R.drawable.ball_yellow);
+				name.setTextColor(Color.GREEN);
 			}
 			else {
 				icon.setImageResource(R.drawable.ball_green);
+				if (address.getText().toString().contains("666")) {
+					name.setTextColor(Color.RED);
+					address.setTextColor(Color.RED);
+				}
 			}
 		}
 	}
