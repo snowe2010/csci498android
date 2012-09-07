@@ -1,19 +1,26 @@
 package csci498.tthrailk.lunchlistfix;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import android.R.color;
+import android.app.DatePickerDialog;
 import android.app.TabActivity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.format.DateFormat;
+import android.text.method.DateTimeKeyListener;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -43,12 +50,34 @@ public class LunchList extends TabActivity {
         
         Button save = (Button) findViewById(R.id.save);
         save.setOnClickListener(onSave);
+        createDatePicker();
         
         createListView();
         createTabs();
         
 //		oRestaurantsAddresses = (AutoCompleteTextView) findViewById(R.id.addr);
 //		oRestaurantsAddresses.setAdapter(adapter);
+    }
+    
+    private void createDatePicker() {
+    	
+    	final DatePickerDialog.OnDateSetListener odsl = new DatePickerDialog.OnDateSetListener() {
+    		public void onDateSet (DatePicker dp, int year, int month, int day) {
+    			TextView text = (TextView) findViewById(R.id.txt);
+    			text.setText("The date is " + day + "/" + (month+1) + "/" + year);
+    		}
+    	};
+    	Button date = (Button) findViewById(R.id.datepicker);
+    	date.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Calendar calendar = Calendar.getInstance();
+				DatePickerDialog datePickerD = new DatePickerDialog(LunchList.this, odsl, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+				datePickerD.show();
+			}
+		});
+    	
     }
     
     private void createListView() {
@@ -70,7 +99,7 @@ public class LunchList extends TabActivity {
     	spec.setIndicator("Details", getResources().getDrawable(R.drawable.restaurant));
     	
     	getTabHost().addTab(spec);
-    	getTabHost().setCurrentTab(0);
+    	getTabHost().setCurrentTab(1);
     }
     
     @Override
@@ -188,7 +217,7 @@ public class LunchList extends TabActivity {
 			return(row);
 		}
 	}
-
+	
 	static class RestaurantHolder {
 		private TextView name 		= null;
 		private TextView address 	= null;
@@ -225,3 +254,4 @@ public class LunchList extends TabActivity {
 		}
 	}
 }
+	
