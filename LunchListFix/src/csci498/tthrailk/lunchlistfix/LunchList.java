@@ -4,55 +4,75 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.R.color;
-import android.app.Activity;
-import android.content.res.ColorStateList;
+import android.app.TabActivity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
+import android.widget.TabHost;
 import android.widget.TextView;
 
-public class LunchList extends Activity {
+public class LunchList extends TabActivity {
 	
 	List<Restaurant> restaurantList = new ArrayList<Restaurant>();
 	RestaurantAdapter adapter 		= null;
 	//AutoCompleteTextView oRestaurantsAddresses;
-	RadioGroup types;
+	RadioGroup types	= null;
+	EditText name 		= null;
+	EditText address	= null;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        types = (RadioGroup) findViewById(R.id.types);
+        types 	= (RadioGroup) findViewById(R.id.types);
         addRadioButtonListeners();
+        name	= (EditText) findViewById(R.id.name);
+        address	= (EditText) findViewById(R.id.addr);
         
         Button save = (Button) findViewById(R.id.save);
         save.setOnClickListener(onSave);
         
-        //Spinner list = (Spinner) findViewById(R.id.restaurants);
-        ListView list 	= (ListView) findViewById(R.id.restaurants);
-        adapter 		= new RestaurantAdapter();
-        list.setAdapter(adapter);
-
+        createListView();
+        createTabs();
         
 //		oRestaurantsAddresses = (AutoCompleteTextView) findViewById(R.id.addr);
 //		oRestaurantsAddresses.setAdapter(adapter);
-		
-
     }
-
+    
+    private void createListView() {
+    	//Spinner list = (Spinner) findViewById(R.id.restaurants);
+    	ListView list 	= (ListView) findViewById(R.id.restaurants);
+    	adapter 		= new RestaurantAdapter();
+    	list.setAdapter(adapter);
+    	list.setOnItemClickListener(onListClick);
+    }
+    
+    private void createTabs() {
+    	TabHost.TabSpec spec = getTabHost().newTabSpec("tag1");
+    	spec.setContent(R.id.restaurants);
+    	spec.setIndicator("List", getResources().getDrawable(R.drawable.list));
+    	getTabHost().addTab(spec);
+    	
+    	spec = getTabHost().newTabSpec("tag2");
+    	spec.setContent(R.id.details);
+    	spec.setIndicator("Details", getResources().getDrawable(R.drawable.restaurant));
+    	
+    	getTabHost().addTab(spec);
+    	getTabHost().setCurrentTab(0);
+    }
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_main, menu);
@@ -124,8 +144,26 @@ public class LunchList extends Activity {
 		}
 	};
 
+	private AdapterView.OnItemClickListener onListClick = new AdapterView.OnItemClickListener() {
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			Restaurant r = restaurantList.get(position);
+			name.setText(r.getName());
+			address.setText(r.getAddress());
+			
+			if (r.getType().equals("sit_down")) {
+				types.check(R.id.sit_down);
+			}
+			else if (r.getType().equals("take_out")) {
+				types.check(R.id.take_out);
+			}
+			else {
+				types.check(R.id.delivery);
+			}
+		}
+	};
+	
 	class RestaurantAdapter extends ArrayAdapter<Restaurant> {
-		RestaurantAdapter() {
+	RestaurantAdapter() {
 			super(LunchList.this, android.R.layout.simple_list_item_1, restaurantList);
 		}
 		
