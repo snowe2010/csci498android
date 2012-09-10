@@ -1,30 +1,23 @@
 package csci498.tthrailk.lunchlistfix;
 
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import android.R.color;
-import android.app.DatePickerDialog;
 import android.app.TabActivity;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.format.DateFormat;
-import android.text.method.DateTimeKeyListener;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -77,12 +70,6 @@ public class LunchList extends TabActivity {
     	getTabHost().setCurrentTab(1);
     }
     
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_main, menu);
-        return true;
-    }
-
     private View.OnClickListener onSave = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -130,6 +117,12 @@ public class LunchList extends TabActivity {
 			getTabHost().setCurrentTab(1);
 		}
 	};
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    new MenuInflater(this).inflate(R.menu.option, menu);
+	    return(super.onCreateOptionsMenu(menu));
+	}
 	
 	class RestaurantAdapter extends ArrayAdapter<Restaurant> {
 	RestaurantAdapter() {
