@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.R.color;
+import android.app.AlertDialog;
 import android.app.TabActivity;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -34,6 +36,7 @@ public class LunchList extends TabActivity {
 	EditText address	= null;
 	EditText notes 		= null;
 	Restaurant current	= null;
+	AlertDialog mDialog = null;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -132,8 +135,8 @@ public class LunchList extends TabActivity {
 	      message=current.getNotes();
 	    }
 	    
-	    Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-	    
+	    //Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+	    initiateTwoButtonAlert(message, "Ok");
 	    return(true);
 	  }
 	  
@@ -201,5 +204,20 @@ public class LunchList extends TabActivity {
 			}
 		}
 	}
+	
+	private void initiateTwoButtonAlert(String displayText, String positiveButtonText) {
+	     mDialog = new AlertDialog.Builder(this)
+	             .setTitle(getResources().getString(R.string.app_name))
+	             .setMessage(displayText)
+	             .setIcon(R.drawable.toast)
+	             .setPositiveButton(positiveButtonText, null)
+	             .show();
+	 
+	     WindowManager.LayoutParams layoutParams = mDialog.getWindow().getAttributes();
+	     layoutParams.dimAmount = 0.9f;
+	     mDialog.getWindow().setAttributes(layoutParams);
+	     mDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+	 }
+	
 }
 	
