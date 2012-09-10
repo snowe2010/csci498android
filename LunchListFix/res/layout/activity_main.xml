@@ -49,19 +49,12 @@
             />
           </RadioGroup>
         </TableRow>
-        <TableRow>
-            <TextView android:text="Date:"/>
-            <EditText android:id="@+id/txt" />
-        </TableRow>
         <Button android:id="@+id/save"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:text="Save"
         />
-        <Button android:id="@+id/datepicker"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Date" />
+
       </TableLayout>
     </FrameLayout>
   </LinearLayout>

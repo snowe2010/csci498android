@@ -44,44 +44,17 @@ public class LunchList extends TabActivity {
         setContentView(R.layout.activity_main);
         
         types 	= (RadioGroup) findViewById(R.id.types);
-        addRadioButtonListeners();
         name	= (EditText) findViewById(R.id.name);
         address	= (EditText) findViewById(R.id.addr);
         
         Button save = (Button) findViewById(R.id.save);
         save.setOnClickListener(onSave);
-        createDatePicker();
         
         createListView();
         createTabs();
-        
-//		oRestaurantsAddresses = (AutoCompleteTextView) findViewById(R.id.addr);
-//		oRestaurantsAddresses.setAdapter(adapter);
-    }
-    
-    private void createDatePicker() {
-    	
-    	final DatePickerDialog.OnDateSetListener odsl = new DatePickerDialog.OnDateSetListener() {
-    		public void onDateSet (DatePicker dp, int year, int month, int day) {
-    			TextView text = (TextView) findViewById(R.id.txt);
-    			text.setText("The date is " + day + "/" + (month+1) + "/" + year);
-    		}
-    	};
-    	Button date = (Button) findViewById(R.id.datepicker);
-    	date.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Calendar calendar = Calendar.getInstance();
-				DatePickerDialog datePickerD = new DatePickerDialog(LunchList.this, odsl, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-				datePickerD.show();
-			}
-		});
-    	
     }
     
     private void createListView() {
-    	//Spinner list = (Spinner) findViewById(R.id.restaurants);
     	ListView list 	= (ListView) findViewById(R.id.restaurants);
     	adapter 		= new RestaurantAdapter();
     	list.setAdapter(adapter);
@@ -89,16 +62,16 @@ public class LunchList extends TabActivity {
     }
     
     private void createTabs() {
-    	TabHost.TabSpec spec = getTabHost().newTabSpec("tag1");
-    	spec.setContent(R.id.restaurants);
-    	spec.setIndicator("List", getResources().getDrawable(R.drawable.list));
-    	getTabHost().addTab(spec);
+    	TabHost.TabSpec tSpec = getTabHost().newTabSpec("tag1");
+    	tSpec.setContent(R.id.restaurants);
+    	tSpec.setIndicator("List", getResources().getDrawable(R.drawable.list));
+    	getTabHost().addTab(tSpec);
     	
-    	spec = getTabHost().newTabSpec("tag2");
-    	spec.setContent(R.id.details);
-    	spec.setIndicator("Details", getResources().getDrawable(R.drawable.restaurant));
+    	tSpec = getTabHost().newTabSpec("tag2");
+    	tSpec.setContent(R.id.details);
+    	tSpec.setIndicator("Details", getResources().getDrawable(R.drawable.restaurant));
     	
-    	getTabHost().addTab(spec);
+    	getTabHost().addTab(tSpec);
     	getTabHost().setCurrentTab(1);
     }
     
@@ -107,46 +80,7 @@ public class LunchList extends TabActivity {
         getMenuInflater().inflate(R.menu.activity_main, menu);
         return true;
     }
-    
-    public void addRadioButtonListeners() {
-//    	RadioGroup extraCreditGroup = (RadioGroup) findViewById(R.id.types);
-    	 
-    	RadioButton ecButton1 = new RadioButton(this);
-    	ecButton1.setText(R.string.ec_radio_button_1);
-    	types.addView(ecButton1);
-    	 
-    	RadioButton ecButton2 = new RadioButton(this);
-    	ecButton2.setText(R.string.ec_radio_button_2);
-    	types.addView(ecButton2);
-    	 
-    	RadioButton ecButton3 = new RadioButton(this);
-    	ecButton3.setText(R.string.ec_radio_button_3);
-    	types.addView(ecButton3);
-    	
-/*    	RadioButton addB1 = new RadioButton(this);
-    	RadioButton addB2 = new RadioButton(this);
-    	RadioButton addB3 = new RadioButton(this);
-    	RadioButton addB4 = new RadioButton(this);
-    	RadioButton addB5 = new RadioButton(this);
-    	RadioButton addB6 = new RadioButton(this);
 
-    	addB1.setText("extra");
-    	addB2.setText("extra2");
-    	addB3.setText("extra3");
-    	addB4.setText("extra4");
-    	addB5.setText("extra5");
-    	addB6.setText("extra6");
-    	
-    	types.addView(addB1);
-    	types.addView(addB2);
-    	types.addView(addB3);
-    	types.addView(addB4);
-    	types.addView(addB5);
-    	types.addView(addB6);
-    	*/
-    	types.check(ecButton1.getId());
-    }
-    
     private View.OnClickListener onSave = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
