@@ -37,17 +37,19 @@ public class LunchList extends TabActivity {
 	RadioGroup types	= null;
 	EditText name 		= null;
 	EditText address	= null;
+	EditText notes 		= null;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        types 	= (RadioGroup) findViewById(R.id.types);
-        name	= (EditText) findViewById(R.id.name);
-        address	= (EditText) findViewById(R.id.addr);
+        types 		= (RadioGroup) 	findViewById(R.id.types);
+        name		= (EditText) 	findViewById(R.id.name);
+        address		= (EditText) 	findViewById(R.id.addr);
+        notes 		= (EditText) 	findViewById(R.id.notes);
+        Button save = (Button) 		findViewById(R.id.save);
         
-        Button save = (Button) findViewById(R.id.save);
         save.setOnClickListener(onSave);
         
         createListView();
@@ -87,9 +89,11 @@ public class LunchList extends TabActivity {
 			Restaurant r 		= new Restaurant();
 			EditText name 		= (EditText) findViewById(R.id.name);
 			EditText address 	= (EditText) findViewById(R.id.addr);
-
+			EditText notes		= (EditText) findViewById(R.id.notes);
+			
 			r.setName(name.getText().toString());
 			r.setAddress(address.getText().toString());
+			r.setNotes(notes.getText().toString());
 			
 			switch (types.getCheckedRadioButtonId()) {
 				case R.id.sit_down:
@@ -112,6 +116,7 @@ public class LunchList extends TabActivity {
 			Restaurant r = restaurantList.get(position);
 			name.setText(r.getName());
 			address.setText(r.getAddress());
+			notes.setText(r.getNotes());
 			
 			if (r.getType().equals("sit_down")) {
 				types.check(R.id.sit_down);
