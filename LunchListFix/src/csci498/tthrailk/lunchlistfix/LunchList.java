@@ -122,25 +122,25 @@ public class LunchList extends TabActivity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-	    new MenuInflater(this).inflate(R.menu.option, menu);
-	    return(super.onCreateOptionsMenu(menu));
+ 		new MenuInflater(this).inflate(R.menu.option, menu);
+		return super.onCreateOptionsMenu(menu);
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	  if (item.getItemId()==R.id.toast) {
+	  if (item.getItemId() == R.id.toast) {
 	    String message="No restaurant selected";
 	    
-	    if (current!=null) {
-	      message=current.getNotes();
+	    if (current != null) {
+	      message = current.getNotes();
 	    }
 	    
 	    //Toast.makeText(this, message, Toast.LENGTH_LONG).show();
 	    initiateTwoButtonAlert(message, "Ok");
-	    return(true);
+	    return true;
 	  }
 	  
-	  return(super.onOptionsItemSelected(item));
+	  return super.onOptionsItemSelected(item);
 	}
 	
 	class RestaurantAdapter extends ArrayAdapter<Restaurant> {
