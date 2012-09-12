@@ -7,6 +7,8 @@ import android.R.color;
 import android.app.TabActivity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -36,7 +38,24 @@ public class LunchList extends TabActivity {
 	EditText address;
 	EditText notes;
 	Restaurant current;
-	private int progress;
+	int progress = 0;
+	
+	
+	Handler handler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+//			String returnV = (String) msg.obj;
+			System.out.println(progress);
+			if (progress == 5) {
+//				showToast();
+				
+			}
+			else if (progress < 5) {
+				//do nothing so far.
+			}
+			
+		}
+	};
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -124,7 +143,7 @@ public class LunchList extends TabActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    new MenuInflater(this).inflate(R.menu.option, menu);
-	    return(super.onCreateOptionsMenu(menu));
+	    return super.onCreateOptionsMenu(menu);
 	}
 	
 	@Override
@@ -151,12 +170,21 @@ public class LunchList extends TabActivity {
 	}
 	
 	private void doSomeLongWork(final int incr) {
-		runOnUiThread(new Runnable() {
+/*		runOnUiThread(new Runnable() {
 			public void run() {
 				progress += incr;
 				setProgress(progress);
 			}
+		});*/
+		Thread progressThread = new Thread(new Runnable() {
+			public void run() {
+				progress += incr;
+				if (progress <= 10000){
+					setProgress(progress);
+				}
+			}
 		});
+		progressThread.start();
 		SystemClock.sleep(250);
 	}
 	
@@ -164,16 +192,23 @@ public class LunchList extends TabActivity {
 		public void run() {
 			for (int i=0; i<20; ++i) {
 				doSomeLongWork(500);
+				String data = "Time:" + i*.25;
+				Message msg = handler.obtainMessage(1, (String) data);
+//				handler.sendEmptyMessage(1);
+				handler.sendMessage(msg);
 			}
-			
-			runOnUiThread(new Runnable() {
+/*			runOnUiThread(new Runnable() {
 				public void run() {
 					setProgressBarVisibility(false);
 					Toast.makeText(LunchList.this, "Done running long task", Toast.LENGTH_LONG).show();
 				}
-			});
+			});*/
 		}
 	};
+	
+	private void showToast() {
+		Toast.makeText(LunchList.this, "Done running task", Toast.LENGTH_LONG).show();
+	}
 	
 	class RestaurantAdapter extends ArrayAdapter<Restaurant> {
 	RestaurantAdapter() {
