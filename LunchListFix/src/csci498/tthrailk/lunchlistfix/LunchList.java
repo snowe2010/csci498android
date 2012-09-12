@@ -7,12 +7,14 @@ import android.R.color;
 import android.app.TabActivity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -27,17 +29,19 @@ import android.widget.Toast;
 public class LunchList extends TabActivity {
 	
 	List<Restaurant> restaurantList = new ArrayList<Restaurant>();
-	RestaurantAdapter adapter 		= null;
+	RestaurantAdapter adapter;
 	//AutoCompleteTextView oRestaurantsAddresses;
-	RadioGroup types	= null;
-	EditText name 		= null;
-	EditText address	= null;
-	EditText notes 		= null;
-	Restaurant current	= null;
+	RadioGroup types;
+	EditText name;
+	EditText address;
+	EditText notes;
+	Restaurant current;
+	private int progress;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_PROGRESS);
         setContentView(R.layout.activity_main);
         
         types 		= (RadioGroup) 	findViewById(R.id.types);
@@ -125,20 +129,35 @@ public class LunchList extends TabActivity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	  if (item.getItemId()==R.id.toast) {
+	  if (item.getItemId() == R.id.toast) {
 	    String message="No restaurant selected";
 	    
-	    if (current!=null) {
+	    if (current != null) {
 	      message=current.getNotes();
 	    }
 	    
 	    Toast.makeText(this, message, Toast.LENGTH_LONG).show();
 	    
-	    return(true);
+	    return true;
+	  }
+	  else if (item.getItemId() == R.id.run) {
+		  new Thread(longTask).start();
 	  }
 	  
-	  return(super.onOptionsItemSelected(item));
+	  return super.onOptionsItemSelected(item);
 	}
+	
+	private void doSomeLongWork(final int incr) {
+		SystemClock.sleep(250);
+	}
+	
+	private Runnable longTask = new Runnable() {
+		public void run() {
+			for (int i=0; i<20; ++i) {
+				doSomeLongWork(500);
+			}
+		}
+	};
 	
 	class RestaurantAdapter extends ArrayAdapter<Restaurant> {
 	RestaurantAdapter() {
