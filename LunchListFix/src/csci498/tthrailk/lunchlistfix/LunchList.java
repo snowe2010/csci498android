@@ -2,6 +2,7 @@ package csci498.tthrailk.lunchlistfix;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import android.R.color;
 import android.app.TabActivity;
@@ -37,6 +38,7 @@ public class LunchList extends TabActivity {
 	EditText notes;
 	Restaurant current;
 	private int progress;
+	AtomicBoolean isActive;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,8 @@ public class LunchList extends TabActivity {
         
         createListView();
         createTabs();
+        
+        isActive = new AtomicBoolean(true);
     }
     
     private void createListView() {
@@ -150,6 +154,12 @@ public class LunchList extends TabActivity {
 	  return super.onOptionsItemSelected(item);
 	}
 	
+	@Override
+	public void onPause() {
+		super.onPause();
+		isActive.set(false);
+	}
+	
 	private void doSomeLongWork(final int incr) {
 		runOnUiThread(new Runnable() {
 			public void run() {
@@ -162,7 +172,7 @@ public class LunchList extends TabActivity {
 	
 	private Runnable longTask = new Runnable() {
 		public void run() {
-			for (int i=progress; i<10000; i+=200) {
+			for (int i=progress; i<10000 && isActive.get(); i+=200) {
 				doSomeLongWork(200);
 			}
 			
