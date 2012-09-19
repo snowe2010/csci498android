@@ -7,5 +7,13 @@
     <string name="ec_radio_button_1">Extra button 1!</string>
     <string name="ec_radio_button_2">Extra button 2!</string>
     <string name="ec_radio_button_3">Extra button 3!</string>
-
+    <string name="name_label">Name:</string>
+    <string name="address_label">Address:</string>
+    <string name="type_label">Type:</string>
+	<string name="take_out_text">Take-Out</string>
+	<string name="sit_down_text">Sit-Down</string>
+	<string name="delivery_text">Delivery</string>
+	<string name="notes_label">Notes:</string>
+	<string name="save_label">Save:</string>
+	
 </resources>
