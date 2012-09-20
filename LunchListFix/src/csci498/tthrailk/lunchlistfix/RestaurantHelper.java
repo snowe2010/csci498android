@@ -25,7 +25,7 @@ class RestaurantHelper extends SQLiteOpenHelper {
 	
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		//unnecessary until 2nd schema
+		//unnecessary until 2nd schema 
 	}
 	
 	public void insert(String name, String address, String type, String notes) {
