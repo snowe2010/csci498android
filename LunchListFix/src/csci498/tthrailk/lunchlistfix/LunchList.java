@@ -37,15 +37,14 @@ public class LunchList extends TabActivity {
 	EditText address;
 	EditText notes;
 	Restaurant current;
-	private int progress;
-	AtomicBoolean isActive;
+	RestaurantHelper helper;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_PROGRESS);
         setContentView(R.layout.activity_main);
         
+        helper 		= new RestaurantHelper(this);
         types 		= (RadioGroup) 	findViewById(R.id.types);
         name		= (EditText) 	findViewById(R.id.name);
         address		= (EditText) 	findViewById(R.id.addr);
@@ -57,7 +56,12 @@ public class LunchList extends TabActivity {
         createListView();
         createTabs();
         
-        isActive = new AtomicBoolean(true);
+    }
+    
+    @Override
+    public void onDestroy() {
+    	super.onDestroy();
+    	helper.close();
     }
     
     private void createListView() {
@@ -124,86 +128,14 @@ public class LunchList extends TabActivity {
 			getTabHost().setCurrentTab(1);
 		}
 	};
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-	    new MenuInflater(this).inflate(R.menu.option, menu);
-	    return super.onCreateOptionsMenu(menu);
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-	  if (item.getItemId() == R.id.toast) {
-	    String message = "No restaurant selected";
-	    
-	    if (current != null) {
-	      message = current.getNotes();
-	    }
-	    Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-	    return true;
-	  }
-	  else if (item.getItemId() == R.id.run) {
-		  startWork();
-		  return true;
-	  }
-	  
-	  return super.onOptionsItemSelected(item);
-	}
-	
-	@Override
-	public void onPause() {
-		super.onPause();
-		isActive.set(false);
-	}
-	
-	@Override 
-	public void onResume() {
-		super.onResume();
-		isActive.set(true);
-		if(progress > 0) {
-			startWork();
-		}
-	}
-	
-	private void startWork() {
-		setProgressBarVisibility(true);
-		new Thread(longTask).start();
-	}
-	
-	private void doSomeLongWork(final int incr) {
-		runOnUiThread(new Runnable() {
-			public void run() {
-				progress += incr;
-				setProgress(progress);
-			}
-		});
-		SystemClock.sleep(250);
-	}
-	
-	private Runnable longTask = new Runnable() {
-		public void run() {
-			for (int i = progress; i < 10000 && isActive.get(); i += 200) {
-				doSomeLongWork(200);
-			}
-			
-			if (isActive.get()) {
-				runOnUiThread(new Runnable() {
-					public void run() {
-						setProgressBarVisibility(false);
-						progress = 0;
-					}
-				});
-			}
-		}
-	};
-	
+
 	class RestaurantAdapter extends ArrayAdapter<Restaurant> {
-	RestaurantAdapter() {
+		
+		RestaurantAdapter() {
 			super(LunchList.this, R.layout.row, restaurantList);
 		}
 		
 		public View getView(int position, View convertView, ViewGroup parent) {
-			
 			View row 				= convertView;
 			RestaurantHolder holder = null;
 			
