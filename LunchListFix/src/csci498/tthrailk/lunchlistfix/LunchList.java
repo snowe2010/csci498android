@@ -2,22 +2,18 @@ package csci498.tthrailk.lunchlistfix;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import android.R.color;
 import android.app.TabActivity;
+import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.SystemClock;
+import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,11 +21,10 @@ import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class LunchList extends TabActivity {
 	
-	List<Restaurant> restaurantList = new ArrayList<Restaurant>();
+	Cursor restaurantList;
 	RestaurantAdapter adapter;
 	//AutoCompleteTextView oRestaurantsAddresses;
 	RadioGroup types;
@@ -66,7 +61,9 @@ public class LunchList extends TabActivity {
     
     private void createListView() {
     	ListView list 	= (ListView) findViewById(R.id.restaurants);
-    	adapter 		= new RestaurantAdapter();
+    	restaurantList = helper.getAll();
+    	startManagingCursor(restaurantList);
+    	adapter 		= new RestaurantAdapter(restaurantList);
     	list.setAdapter(adapter);
     	list.setOnItemClickListener(onListClick);
     }
@@ -108,10 +105,11 @@ public class LunchList extends TabActivity {
 
 	private AdapterView.OnItemClickListener onListClick = new AdapterView.OnItemClickListener() {
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			current = restaurantList.get(position);
-			name.setText(current.getName());
-			address.setText(current.getAddress());
-			notes.setText(current.getNotes());
+			
+			restaurantList.moveToPosition(position);
+			name.setText(helper.getName(restaurantList));
+			address.setText(helper.getAddress(restaurantList));
+			notes.setText(helper.getNotes(restaurantList));
 			
 			if (current.getType().equals("sit_down")) {
 				types.check(R.id.sit_down);
@@ -126,29 +124,24 @@ public class LunchList extends TabActivity {
 		}
 	};
 
-	class RestaurantAdapter extends ArrayAdapter<Restaurant> {
+	class RestaurantAdapter extends CursorAdapter {
 		
-		RestaurantAdapter() {
-			super(LunchList.this, R.layout.row, restaurantList);
+		RestaurantAdapter(Cursor c) {
+			super(LunchList.this, c);
 		}
 		
-		public View getView(int position, View convertView, ViewGroup parent) {
-			View row 				= convertView;
-			RestaurantHolder holder = null;
-			
-			if (row == null) {
-				LayoutInflater inflater = getLayoutInflater();
-				row = inflater.inflate(R.layout.row, parent, false);
-				holder = new RestaurantHolder(row);
-				row.setTag(holder);
-			}
-			else {
-				holder = (RestaurantHolder) row.getTag();
-			}
-			
-			holder.populateFrom(restaurantList.get(position));
-			
-			return(row);
+		@Override
+		public void bindView(View row, Context context, Cursor c) {
+			RestaurantHolder holder = (RestaurantHolder) row.getTag();
+		}
+		
+		@Override 
+		public View newView(Context context, Cursor c, ViewGroup parent) {
+			LayoutInflater inflater = getLayoutInflater();
+			View row = inflater.inflate(R.layout.row, parent, false);
+			RestaurantHolder holder = new RestaurantHolder(row);
+			row.setTag(holder);
+			return row;
 		}
 	}
 	
@@ -163,27 +156,18 @@ public class LunchList extends TabActivity {
 			icon 	= 	(ImageView) row.findViewById(R.id.icon);
 		}
 		
-		void populateFrom(Restaurant r) {
-			name.setText(r.getName());
-			address.setText(r.getAddress());
+		void populateFrom(Cursor c, RestaurantHelper helper) {
+			name.setText(helper.getName(c));
+			address.setText(helper.getAddress(c));
 			
-			if (r.getType().equals("sit_down")) {
+			if (helper.getType(c).equals("sit_down")) {
 				icon.setImageResource(R.drawable.ball_red);
-				name.setBackgroundColor(color.darker_gray);
-				if (name.getText().toString().contains("a")) {
-					name.setAllCaps(true);
-				}
 			}
-			else if (r.getType().equals("take_out")) {
+			else if (helper.getType(c).equals("take_out")) {
 				icon.setImageResource(R.drawable.ball_yellow);
-				name.setTextColor(Color.GREEN);
 			}
 			else {
 				icon.setImageResource(R.drawable.ball_green);
-				if (address.getText().toString().contains("666")) {
-					name.setTextColor(Color.RED);
-					address.setTextColor(Color.RED);
-				}
 			}
 		}
 	}
