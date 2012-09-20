@@ -8,6 +8,7 @@ import android.R.color;
 import android.app.TabActivity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -130,7 +131,6 @@ public class LunchList extends TabActivity {
 	    new MenuInflater(this).inflate(R.menu.option, menu);
 	    return super.onCreateOptionsMenu(menu);
 	}
-	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	  if (item.getItemId() == R.id.toast) {
@@ -149,19 +149,24 @@ public class LunchList extends TabActivity {
 	  
 	  return super.onOptionsItemSelected(item);
 	}
-	
 	@Override
 	public void onPause() {
 		super.onPause();
 		isActive.set(false);
 	}
-	
 	@Override 
 	public void onResume() {
 		super.onResume();
 		isActive.set(true);
 		if(progress > 0) {
 			startWork();
+		}
+	}
+	@Override
+	public void onSaveInstanceState(Bundle bundle) {
+		super.onSaveInstanceState(bundle);
+		if(restaurantList != null ) {
+			bundle.putParcelableArrayList("restaurants", (ArrayList<? extends Parcelable>) restaurantList);
 		}
 	}
 	
