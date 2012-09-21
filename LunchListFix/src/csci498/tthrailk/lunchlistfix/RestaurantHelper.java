@@ -10,8 +10,8 @@ import android.content.ContentValues;
 
 class RestaurantHelper extends SQLiteOpenHelper {
 
-	private static final String DATABASE_NAME="lunchlist.db";
-	private static final int SCHEMA_VERSION=1;
+	private static final String DATABASE_NAME 	= "lunchlist.db";
+	private static final int SCHEMA_VERSION 	= 1;
 
 	public RestaurantHelper(Context context) {
 		super(context, DATABASE_NAME, null, SCHEMA_VERSION);
@@ -40,7 +40,7 @@ class RestaurantHelper extends SQLiteOpenHelper {
 	}
 	
 	public Cursor getAll() {
-		return getReadableDatabase().rawQuery("SELECT _id, name, address, type, notes FROM restuarants ORDER BY name", null);
+		return getReadableDatabase().rawQuery("SELECT _id, name, address, type, notes FROM restaurants ORDER BY name", null);
 	}
 	
 	public String getName(Cursor cursor) {

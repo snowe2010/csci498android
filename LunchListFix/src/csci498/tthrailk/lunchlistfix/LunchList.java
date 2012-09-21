@@ -31,7 +31,6 @@ public class LunchList extends TabActivity {
 	EditText name;
 	EditText address;
 	EditText notes;
-	Restaurant current;
 	RestaurantHelper helper;
 	
     @Override
@@ -89,17 +88,18 @@ public class LunchList extends TabActivity {
 			
 			switch (types.getCheckedRadioButtonId()) {
 				case R.id.sit_down:
-					current.setType("sit_down");
+					type = "sit_down";
 					break;
 				case R.id.take_out:
-					current.setType("take_out");
+					type = "take_out";
 					break;
 				case R.id.delivery:
-					current.setType("delivery");
+					type = "delivery";
 					break;
 			}
 			
 			helper.insert(name.getText().toString(), address.getText().toString(), type, notes.getText().toString());
+			restaurantList.requery();
 		}
 	};
 
@@ -111,10 +111,10 @@ public class LunchList extends TabActivity {
 			address.setText(helper.getAddress(restaurantList));
 			notes.setText(helper.getNotes(restaurantList));
 			
-			if (current.getType().equals("sit_down")) {
+			if (helper.getType(restaurantList).equals("sit_down")) {
 				types.check(R.id.sit_down);
 			}
-			else if (current.getType().equals("take_out")) {
+			else if (helper.getType(restaurantList).equals("take_out")) {
 				types.check(R.id.take_out);
 			}
 			else {
