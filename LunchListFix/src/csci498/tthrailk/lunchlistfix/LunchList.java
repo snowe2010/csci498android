@@ -1,13 +1,9 @@
 package csci498.tthrailk.lunchlistfix;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import android.R.color;
 import android.app.TabActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
@@ -105,22 +101,8 @@ public class LunchList extends TabActivity {
 
 	private AdapterView.OnItemClickListener onListClick = new AdapterView.OnItemClickListener() {
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			
-			restaurantList.moveToPosition(position);
-			name.setText(helper.getName(restaurantList));
-			address.setText(helper.getAddress(restaurantList));
-			notes.setText(helper.getNotes(restaurantList));
-			
-			if (helper.getType(restaurantList).equals("sit_down")) {
-				types.check(R.id.sit_down);
-			}
-			else if (helper.getType(restaurantList).equals("take_out")) {
-				types.check(R.id.take_out);
-			}
-			else {
-				types.check(R.id.delivery);
-			}
-			getTabHost().setCurrentTab(1);
+				Intent i = new Intent(LunchList.this, DetailForm.class);
+				startActivity(i);
 		}
 	};
 
