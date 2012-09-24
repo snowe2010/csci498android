@@ -1,6 +1,6 @@
 package csci498.tthrailk.lunchlistfix;
 
-import android.app.TabActivity;
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -18,7 +17,7 @@ import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.TextView;
 
-public class LunchList extends TabActivity {
+public class LunchList extends ListActivity {
 	
 	Cursor restaurantList;
 	RestaurantAdapter adapter;
@@ -28,17 +27,14 @@ public class LunchList extends TabActivity {
 	EditText address;
 	EditText notes;
 	RestaurantHelper helper;
+	public final static String ID_EXTRA = "csci498.tthrailk._ID";
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-
-        
         createListView();
-        createTabs();
-        
     }
     
     @Override
@@ -48,56 +44,19 @@ public class LunchList extends TabActivity {
     }
     
     private void createListView() {
-    	ListView list 	= (ListView) findViewById(R.id.restaurants);
-    	restaurantList = helper.getAll();
+    	helper 			= new RestaurantHelper(this);
+    	restaurantList 	= helper.getAll();
     	startManagingCursor(restaurantList);
     	adapter 		= new RestaurantAdapter(restaurantList);
-    	list.setAdapter(adapter);
-    	list.setOnItemClickListener(onListClick);
+    	setListAdapter(adapter);
     }
     
-    private void createTabs() {
-    	TabHost.TabSpec tSpec = getTabHost().newTabSpec("tag1");
-    	tSpec.setContent(R.id.restaurants);
-    	tSpec.setIndicator("List", getResources().getDrawable(R.drawable.list));
-    	getTabHost().addTab(tSpec);
-    	
-    	tSpec = getTabHost().newTabSpec("tag2");
-    	tSpec.setContent(R.id.details);
-    	tSpec.setIndicator("Details", getResources().getDrawable(R.drawable.restaurant));
-    	
-    	getTabHost().addTab(tSpec);
-    	getTabHost().setCurrentTab(1);
-    }
-    
-    private View.OnClickListener onSave = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			String type = null;
-			
-			switch (types.getCheckedRadioButtonId()) {
-				case R.id.sit_down:
-					type = "sit_down";
-					break;
-				case R.id.take_out:
-					type = "take_out";
-					break;
-				case R.id.delivery:
-					type = "delivery";
-					break;
-			}
-			
-			helper.insert(name.getText().toString(), address.getText().toString(), type, notes.getText().toString());
-			restaurantList.requery();
-		}
-	};
-
-	private AdapterView.OnItemClickListener onListClick = new AdapterView.OnItemClickListener() {
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    @Override
+	public void onListItemClick(ListView parent, View view, int position, long id) {
 				Intent i = new Intent(LunchList.this, DetailForm.class);
+				i.putExtra(ID_EXTRA, String.valueOf(id));
 				startActivity(i);
-		}
-	};
+	}
 
 	class RestaurantAdapter extends CursorAdapter {
 		
