@@ -20,15 +20,10 @@ import android.widget.TextView;
 
 public class LunchList extends ListActivity {
 	
+	public final static String ID_EXTRA = "csci498.tthrailk._ID";
 	Cursor restaurantList;
 	RestaurantAdapter adapter;
-	//AutoCompleteTextView oRestaurantsAddresses;
-	RadioGroup types;
-	EditText name;
-	EditText address;
-	EditText notes;
 	RestaurantHelper helper;
-	public final static String ID_EXTRA = "csci498.tthrailk._ID";
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,6 +31,27 @@ public class LunchList extends ListActivity {
         setContentView(R.layout.activity_main);
         
         createListView();
+    }
+
+    private void createListView() {
+    	helper 			= new RestaurantHelper(this);
+    	restaurantList 	= helper.getAll();
+    	startManagingCursor(restaurantList);
+    	adapter 		= new RestaurantAdapter(restaurantList);
+    	setListAdapter(adapter);
+    }
+    
+    @Override
+    public void onDestroy() {
+    	super.onDestroy();
+    	helper.close();
+    }
+    
+    @Override
+    public void onListItemClick(ListView parent, View view, int position, long id) {
+    	Intent i = new Intent(LunchList.this, DetailForm.class);
+    	i.putExtra(ID_EXTRA, String.valueOf(id));
+    	startActivity(i);
     }
     
     @Override
@@ -52,27 +68,6 @@ public class LunchList extends ListActivity {
     	}
     	return super.onOptionsItemSelected(item);
     }
-    
-    @Override
-    public void onDestroy() {
-    	super.onDestroy();
-    	helper.close();
-    }
-    
-    private void createListView() {
-    	helper 			= new RestaurantHelper(this);
-    	restaurantList 	= helper.getAll();
-    	startManagingCursor(restaurantList);
-    	adapter 		= new RestaurantAdapter(restaurantList);
-    	setListAdapter(adapter);
-    }
-    
-    @Override
-	public void onListItemClick(ListView parent, View view, int position, long id) {
-				Intent i = new Intent(LunchList.this, DetailForm.class);
-				i.putExtra(ID_EXTRA, String.valueOf(id));
-				startActivity(i);
-	}
 
 	class RestaurantAdapter extends CursorAdapter {
 		
@@ -83,6 +78,7 @@ public class LunchList extends ListActivity {
 		@Override
 		public void bindView(View row, Context context, Cursor c) {
 			RestaurantHolder holder = (RestaurantHolder) row.getTag();
+			holder.populateFrom(c, helper);
 		}
 		
 		@Override 
