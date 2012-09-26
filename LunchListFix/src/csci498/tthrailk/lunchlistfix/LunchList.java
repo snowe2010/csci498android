@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 public class LunchList extends ListActivity {
 
@@ -24,18 +26,20 @@ public class LunchList extends ListActivity {
 	Cursor restaurantList;
 	RestaurantAdapter adapter;
 	RestaurantHelper helper;
+	SharedPreferences prefs;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         createListView();
     }
 
     private void createListView() {
     	helper 			= new RestaurantHelper(this);
-    	restaurantList 	= helper.getAll();
+    	restaurantList 	= helper.getAll(prefs.getString("sort_order", "name"));
     	startManagingCursor(restaurantList);
     	adapter 		= new RestaurantAdapter(restaurantList);
     	setListAdapter(adapter);
