@@ -32,16 +32,22 @@ public class LunchList extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        createListView();
+    	helper	= new RestaurantHelper(this);
+        prefs	= PreferenceManager.getDefaultSharedPreferences(this);
+        initList();
+        prefs.registerOnSharedPreferenceChangeListener(prefListener);
     }
 
-    private void createListView() {
-    	helper 			= new RestaurantHelper(this);
-    	restaurantList 	= helper.getAll(prefs.getString("sort_order", "name"));
+    private void initList() {
+    	if (restaurantList != null) {
+    		stopManagingCursor(restaurantList);
+    		restaurantList.close();
+    	}
+
+    	restaurantList	= helper.getAll(prefs.getString("sort_order", "name"));
     	startManagingCursor(restaurantList);
-    	adapter 		= new RestaurantAdapter(restaurantList);
+    	adapter			= new RestaurantAdapter(restaurantList);
     	setListAdapter(adapter);
     }
 
@@ -51,6 +57,14 @@ public class LunchList extends ListActivity {
     	helper.close();
     }
 
+    private SharedPreferences.OnSharedPreferenceChangeListener prefListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+    	public void onSharedPreferenceChanged(SharedPreferences sharedPrefs, String key) {
+    		if (key.equals("sort_order")) {
+    			initList();
+    		}
+    	}
+    };
+    
     @Override
     public void onListItemClick(ListView parent, View view, int position, long id) {
     	Intent i = new Intent(LunchList.this, DetailForm.class);
