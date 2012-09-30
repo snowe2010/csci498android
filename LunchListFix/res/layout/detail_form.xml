@@ -2,10 +2,10 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
 	android:layout_height="wrap_content">
-	<TableLayout 
-		android:layout_width="match_parent" 
+	<TableLayout
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:stretchColumns="1" 
+		android:stretchColumns="1"
 		android:shrinkColumns="1" >
 		<TableRow>
 			<TextView android:text="Name:" />
@@ -25,18 +25,18 @@
 		</TableRow>
 		<TableRow>
 			<TextView android:text="Notes:" />
-			<EditText 
-			    android:id="@+id/notes" 
+			<EditText
+			    android:id="@+id/notes"
 			    android:inputType="textMultiLine"
-				android:gravity="top" 
+				android:gravity="top"
 				android:lines="2"
-				android:scrollHorizontally="false" 
+				android:scrollHorizontally="false"
 				android:maxLines="2" />
 		</TableRow>
-		<Button 
-		    android:id="@+id/save" 
+		<Button
+		    android:id="@+id/save"
 		    android:layout_width="match_parent"
-			android:layout_height="wrap_content" 
+			android:layout_height="wrap_content"
 			android:text="Save" />
 	</TableLayout>
 </ScrollView>
