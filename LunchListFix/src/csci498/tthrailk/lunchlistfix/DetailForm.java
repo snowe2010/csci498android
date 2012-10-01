@@ -125,9 +125,9 @@ public class DetailForm extends Activity {
 
 	 @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    if (item.getItemId()==R.id.feed) {
+    if (item.getItemId() == R.id.feed) {
       if (isNetworkAvailable()) {
-        Intent i=new Intent(this, FeedActivity.class);
+        Intent i = new Intent(this, FeedActivity.class);
 
         i.putExtra(FeedActivity.FEED_URL, feed.getText().toString());
         startActivity(i);
@@ -139,16 +139,15 @@ public class DetailForm extends Activity {
           .show();
       }
 
-      return(true);
+      return true;
     }
-    return(super.onOptionsItemSelected(item));
+    return super.onOptionsItemSelected(item);
   }
 
   private boolean isNetworkAvailable() {
-    ConnectivityManager
-cm=(ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
-    NetworkInfo info=cm.getActiveNetworkInfo();
+    ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+    NetworkInfo info = cm.getActiveNetworkInfo();
 
-    return(info!=null);
+    return info != null;
   }
 }
