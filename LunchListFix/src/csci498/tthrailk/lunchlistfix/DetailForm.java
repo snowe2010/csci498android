@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 public class DetailForm extends Activity {
 
@@ -108,5 +110,11 @@ public class DetailForm extends Activity {
 		address.setText(state.getString("address"));
 		notes.setText(state.getString("notes"));
 		types.check(state.getInt("type"));
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		new MenuInflater(this).inflate(R.menu.details_option, menu);
+		return super.onCreateOptionsMenu(menu);
 	}
 }
