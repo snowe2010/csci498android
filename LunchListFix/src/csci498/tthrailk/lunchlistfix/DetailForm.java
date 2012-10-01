@@ -32,10 +32,10 @@ public class DetailForm extends Activity {
 	    setContentView(R.layout.detail_form);
 
 	    helper 		= new RestaurantHelper(this);
-	    types 		= (RadioGroup) 	findViewById(R.id.types);
 	    name		= (EditText) 	findViewById(R.id.name);
 	    address		= (EditText) 	findViewById(R.id.addr);
 	    notes 		= (EditText) 	findViewById(R.id.notes);
+	    types 		= (RadioGroup) 	findViewById(R.id.types);
 	    feed 		= (EditText) 	findViewById(R.id.feed);
 	    Button save = (Button) 		findViewById(R.id.save);
 
@@ -55,18 +55,20 @@ public class DetailForm extends Activity {
 
 	private void load() {
 		Cursor c = helper.getById(restaurantId);
+
 		c.moveToFirst();
 		name.setText(helper.getName(c));
 		address.setText(helper.getAddress(c));
 		notes.setText(helper.getNotes(c));
+		feed.setText(helper.getFeed(c));
 
 		if (helper.getType(c).equals("sit_down")) {
 			types.check(R.id.sit_down);
 		} else if (helper.getType(c).equals("take_out")) {
 			types.check(R.id.take_out);
-		} else types.check(R.id.delivery);
-
-		feed.setText(helper.getFeed(c));
+		} else {
+			types.check(R.id.delivery);
+		}
 
 		c.close();
 	}
@@ -76,15 +78,15 @@ public class DetailForm extends Activity {
 			String type = null;
 
 			switch (types.getCheckedRadioButtonId()) {
-			case R.id.sit_down:
-				type = "sit_down";
-				break;
-			case R.id.take_out:
-				type = "take_out";
-				break;
-			case R.id.delivery:
-				type = "delivery";
-				break;
+				case R.id.sit_down:
+					type = "sit_down";
+					break;
+				case R.id.take_out:
+					type = "take_out";
+					break;
+				case R.id.delivery:
+					type = "delivery";
+					break;
 
 			}
 
@@ -123,31 +125,28 @@ public class DetailForm extends Activity {
 		return super.onCreateOptionsMenu(menu);
 	}
 
-	 @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    if (item.getItemId() == R.id.feed) {
-      if (isNetworkAvailable()) {
-        Intent i = new Intent(this, FeedActivity.class);
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+    	if (item.getItemId() == R.id.feed) {
+      		if (isNetworkAvailable()) {
+        		Intent i = new Intent(this, FeedActivity.class);
 
-        i.putExtra(FeedActivity.FEED_URL, feed.getText().toString());
-        startActivity(i);
-      }
-      else {
-        Toast
-          .makeText(this, "Sorry, the Internet is not available",
-                    Toast.LENGTH_LONG)
-          .show();
-      }
+        		i.putExtra(FeedActivity.FEED_URL, feed.getText().toString());
+        		startActivity(i);
+      		}
+			else {
+				Toast.makeText(this, "Sorry, the Internet is not available", Toast.LENGTH_LONG).show();
+			}
 
-      return true;
-    }
-    return super.onOptionsItemSelected(item);
-  }
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
 
-  private boolean isNetworkAvailable() {
-    ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-    NetworkInfo info = cm.getActiveNetworkInfo();
+	private boolean isNetworkAvailable() {
+		ConnectivityManager cm	= (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+		NetworkInfo info		= cm.getActiveNetworkInfo();
 
-    return info != null;
-  }
+		return (info != null);
+	}
 }
