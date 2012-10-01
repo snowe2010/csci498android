@@ -11,7 +11,7 @@ import android.content.ContentValues;
 class RestaurantHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME 	= "lunchlist.db";
-	private static final int SCHEMA_VERSION 	= 1;
+	private static final int SCHEMA_VERSION 	= 2;
 
 	public RestaurantHelper(Context context) {
 		super(context, DATABASE_NAME, null, SCHEMA_VERSION);
@@ -20,12 +20,12 @@ class RestaurantHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL("CREATE TABLE restaurants (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, address TEXT, type TEXT, notes TEXT);");
+		db.execSQL("CREATE TABLE restaurants (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, address TEXT, type TEXT, notes TEXT, feed TEXT);");
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		//unnecessary until 2nd schema
+		db.execSQL("ALTER TABLE restaurants ADD COLUMN feed TEXT");
 	}
 
 	public void insert(String name, String address, String type, String notes) {
@@ -35,6 +35,7 @@ class RestaurantHelper extends SQLiteOpenHelper {
 		cv.put("address", address);
 		cv.put("type", type);
 		cv.put("notes", notes);
+		cv.put("feed", feed);
 
 		getWritableDatabase().insert("restaurants", "name", cv);
 	}
@@ -47,6 +48,7 @@ class RestaurantHelper extends SQLiteOpenHelper {
 		cv.put("address", address);
 		cv.put("type", type);
 		cv.put("notes", notes);
+		cv.put("feed", feed);
 
 		getWritableDatabase().update("restaurants", cv, "_ID=?", args);
 	}
@@ -54,26 +56,26 @@ class RestaurantHelper extends SQLiteOpenHelper {
 	public Cursor getById(String id) {
 		String[] args = {id};
 
-		return getReadableDatabase().rawQuery("SELECT _id, name, address, type, notes FROM restaurants WHERE _ID=?", args);
+		return getReadableDatabase().rawQuery("SELECT _id, name, address, type, notes, feed FROM restaurants WHERE _ID=?", args);
 	}
 
 	public Cursor getAll(String orderBy) {
-		return getReadableDatabase().rawQuery("SELECT _id, name, address, type, notes FROM restaurants ORDER BY " + orderBy, null);
+		return getReadableDatabase().rawQuery("SELECT _id, name, address, type, notes, feed FROM restaurants ORDER BY " + orderBy, null);
 	}
 
 	public String getName(Cursor cursor) {
 		return cursor.getString(1);
 	}
-
 	public String getAddress(Cursor cursor) {
 		return cursor.getString(2);
 	}
-
 	public String getType(Cursor cursor) {
 		return cursor.getString(3);
 	}
-
 	public String getNotes(Cursor cursor) {
 		return cursor.getString(4);
+	}
+	public String getFeed(Cursor cursor) {
+		return cursor.getString(5);
 	}
 }
