@@ -28,7 +28,7 @@ class RestaurantHelper extends SQLiteOpenHelper {
 		db.execSQL("ALTER TABLE restaurants ADD COLUMN feed TEXT");
 	}
 
-	public void insert(String name, String address, String type, String notes) {
+	public void insert(String name, String address, String type, String notes, String feed) {
 		ContentValues cv = new ContentValues();
 
 		cv.put("name", name);
@@ -40,7 +40,7 @@ class RestaurantHelper extends SQLiteOpenHelper {
 		getWritableDatabase().insert("restaurants", "name", cv);
 	}
 
-	public void update(String id, String name, String address, String type, String notes) {
+	public void update(String id, String name, String address, String type, String notes, String feed) {
 		ContentValues cv = new ContentValues();
 		String[] args = {id};
 
