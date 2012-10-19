@@ -24,6 +24,10 @@
 			</RadioGroup>
 		</TableRow>
 		<TableRow>
+			<TextView android:text="Location:" />
+			<TextView android:id="@+id/location" android:text="(not set)" />
+		</TableRow>
+		<TableRow>
 			<!-- <TextView android:text="Notes:" /> -->
 			<EditText
 			    android:id					="@+id/notes"
@@ -37,12 +41,6 @@
 		</TableRow>
 		<EditText android:id = "@+id/feed"
 			android:hint = "Feed URL"
-			/>
-		<Button
-		    android:id				="@+id/save"
-		    android:layout_width	="match_parent"
-			android:layout_height	="wrap_content"
-			android:text			="Save"
 			/>
 	</TableLayout>
 </ScrollView>

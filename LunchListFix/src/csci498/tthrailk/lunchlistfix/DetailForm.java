@@ -25,6 +25,7 @@ public class DetailForm extends Activity {
 	RadioGroup types		= null;
 	RestaurantHelper helper	= null;
 	String restaurantId 	= null;
+	TextView location 		= null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,7 @@ public class DetailForm extends Activity {
 	    notes 		= (EditText) 	findViewById(R.id.notes);
 	    types 		= (RadioGroup) 	findViewById(R.id.types);
 	    feed 		= (EditText) 	findViewById(R.id.feed);
+	    location	= (TextView) 	findViewById(R.id.location);
 	    //Button save = (Button) 		findViewById(R.id.save);
 
 	    //save.setOnClickListener(onSave);
@@ -76,6 +78,7 @@ public class DetailForm extends Activity {
 			types.check(R.id.delivery);
 		}
 
+		location.setText(String.valueOf(helper.getLatitude(c)) + ", " + String.valueOf(helper.getLongitude(c)));
 		c.close();
 	}
 
