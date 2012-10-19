@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+// import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -37,14 +37,20 @@ public class DetailForm extends Activity {
 	    notes 		= (EditText) 	findViewById(R.id.notes);
 	    types 		= (RadioGroup) 	findViewById(R.id.types);
 	    feed 		= (EditText) 	findViewById(R.id.feed);
-	    Button save = (Button) 		findViewById(R.id.save);
+	    //Button save = (Button) 		findViewById(R.id.save);
 
-	    save.setOnClickListener(onSave);
+	    //save.setOnClickListener(onSave);
 	    restaurantId = getIntent().getStringExtra(LunchList.ID_EXTRA);
 
 	    if (restaurantId != null) {
 	    	load();
 	    }
+	}
+
+	@Override
+	public void onPause() {
+		save();
+		super.onPause();
 	}
 
 	@Override
@@ -73,8 +79,8 @@ public class DetailForm extends Activity {
 		c.close();
 	}
 
-	private View.OnClickListener onSave = new View.OnClickListener() {
-		public void onClick(View v) {
+	private void save() {
+		if (name.getText().toString().length() > 0) {
 			String type = null;
 
 			switch (types.getCheckedRadioButtonId()) {
@@ -95,10 +101,8 @@ public class DetailForm extends Activity {
 			} else {
 				helper.update(restaurantId, name.getText().toString(), address.getText().toString(), type, notes.getText().toString(), feed.getText().toString());
 			}
-
-			finish();
 		}
-	};
+	}
 
 	@Override
 	public void onSaveInstanceState(Bundle state) {
