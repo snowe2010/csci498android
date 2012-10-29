@@ -16,16 +16,27 @@
 			<EditText android:id	="@+id/addr" />
 		</TableRow>
 		<TableRow>
-			<TextView android:text		="Type:" />
-			<RadioGroup android:id		="@+id/types">
-				<RadioButton android:id	="@+id/take_out" android:text="Take-Out"	android:checked="true" />
-				<RadioButton android:id	="@+id/sit_down" android:text="Sit-Down" />
-				<RadioButton android:id	="@+id/delivery" android:text="Delivery" />
+			<TextView android:text="Type:" />
+			<RadioGroup android:id="@+id/types">
+				<RadioButton
+					android:id="@+id/take_out"
+					android:text="Take-Out"
+					android:checked="true" />
+				<RadioButton
+					android:id="@+id/sit_down"
+					android:text="Sit-Down" />
+				<RadioButton
+					android:id="@+id/delivery"
+					android:text="Delivery" />
 			</RadioGroup>
 		</TableRow>
 		<TableRow>
 			<TextView android:text="Location:" />
-			<TextView android:id="@+id/location" android:text="(not set)" />
+			<TextView
+				android:id="@+id/location"
+				android:text="(not set)"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content" />
 		</TableRow>
 		<TableRow>
 			<!-- <TextView android:text="Notes:" /> -->

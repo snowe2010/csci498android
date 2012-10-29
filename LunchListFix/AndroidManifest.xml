@@ -33,8 +33,8 @@
         <activity android:name="DetailForm" ></activity>
         <activity android:name="EditPreferences" ></activity>
         <activity android:name="FeedActivity" ></activity>
-        <service android:name="FeedService" ></service>
         <activity android:name="RestaurantMap"></activity>
+        <service android:name="FeedService" ></service>
     </application>
 
 </manifest>
