@@ -7,5 +7,6 @@
     <string name="ec_radio_button_1">Extra button 1!</string>
     <string name="ec_radio_button_2">Extra button 2!</string>
     <string name="ec_radio_button_3">Extra button 3!</string>
+    <string name="empty">No Restaurants!</string>
 
 </resources>
