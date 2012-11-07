@@ -1,9 +1,13 @@
 package csci498.tthrailk.lunchlistfix;
 
-import android.appwidget.AppWidgetProvider;
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
+import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
+import android.widget.RemoteViews;
 
 public class AppWidget extends AppWidgetProvider {
 
