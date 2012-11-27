@@ -11,7 +11,7 @@
 	<uses-feature android:name="android.hardware.telephony"
 					android:required="false" />
 	<uses-sdk
-        android:minSdkVersion="11"
+        android:minSdkVersion="10"
         android:targetSdkVersion="15" />
 
     <supports-screens
