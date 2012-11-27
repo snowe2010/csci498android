@@ -37,7 +37,7 @@ public class DetailFragment extends Fragment {
 	LocationManager locMgr = null;
 	double latitude = 0.0d;
 	double longitude = 0.0d;
-	private static final String ARG_REST_ID = "csci498.tthrailk.lunchlistfix"; 
+	private static final String ARG_REST_ID = "csci498.tthrailk.lunchlistfix.ARG_REST_ID"; 
 
 	@Override
 	public void onCreate(Bundle state) {
