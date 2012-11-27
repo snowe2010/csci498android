@@ -4,7 +4,7 @@
 	android:layout_height="match_parent"
 	android:orientation="horizontal" >
 	<fragment
-		class="apt.tutorial.LunchFragment"
+		class="csci498.tthrailk.lunchlistfix.LunchFragment"
 		android:id="@+id/lunch"
 		android:layout_width="0dip"
 		android:layout_height="match_parent"
