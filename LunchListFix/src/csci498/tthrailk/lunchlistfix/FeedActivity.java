@@ -22,120 +22,118 @@ public class FeedActivity extends ListActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-	state = (InstanceState) getLastNonConfigurationInstance();
+    	super.onCreate(savedInstanceState);
+    	state = (InstanceState) getLastNonConfigurationInstance();
 
-	if (state == null) {
-	    state = new InstanceState();
-	    state.handler = new FeedHandler(this);
+    	if (state == null) {
+    		state = new InstanceState();
+    		state.handler = new FeedHandler(this);
 
-	    Intent i = new Intent(this, FeedService.class);
+    		Intent i = new Intent(this, FeedService.class);
 
-	    i.putExtra(FeedService.EXTRA_URL,
-		    getIntent().getStringExtra(FEED_URL));
-	    i.putExtra(FeedService.EXTRA_MESSENGER,
-		    new Messenger(state.handler));
+    		i.putExtra(FeedService.EXTRA_URL, getIntent().getStringExtra(FEED_URL));
+    		i.putExtra(FeedService.EXTRA_MESSENGER, new Messenger(state.handler));
 
-	    startService(i);
-	} else {
-	    if (state.handler != null) {
-		state.handler.attach(this);
-	    }
-
-	    if (state.feed != null) {
-		setFeed(state.feed);
-	    }
-	}
+    		startService(i);
+    	} else {
+    		if (state.handler != null) {
+    			state.handler.attach(this);
+    		}
+    		if (state.feed != null) {
+    			setFeed(state.feed);
+    		}
+    	}
     }
 
     @Override
     public Object onRetainNonConfigurationInstance() {
-	if (state.handler != null) {
-	    state.handler.detach();
-	}
+    	if (state.handler != null) {
+    		state.handler.detach();
+    	}
 
-	return state;
+    	return state;
     }
 
     private void setFeed(RSSFeed feed) {
-	state.feed = feed;
-	setListAdapter(new FeedAdapter(feed));
+    	state.feed = feed;
+    	setListAdapter(new FeedAdapter(feed));
     }
 
     private void goBlooey(Throwable t) {
-	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-	builder.setTitle("Exception!").setMessage(t.toString())
-		.setPositiveButton("OK", null).show();
+    	builder.setTitle("Exception!").setMessage(t.toString()).setPositiveButton("OK", null).show();
     }
 
     private static class FeedHandler extends Handler {
-	private RSSReader reader = new RSSReader();
-	private Exception e = null;
-	private FeedActivity activity = null;
+    	private RSSReader reader = new RSSReader();
+    	private Exception e = null;
+    	private FeedActivity activity = null;
 
-	FeedHandler(FeedActivity activity) {
-	    attach(activity);
-	}
+    	FeedHandler(FeedActivity activity) {
+    		attach(activity);
+    	}
 
-	void attach(FeedActivity activity) {
-	    this.activity = activity;
-	}
+    	void attach(FeedActivity activity) {
+    		this.activity = activity;
+    	}
 
-	void detach() {
-	    this.activity = null;
-	}
+    	void detach() {
+    		this.activity = null;
+    	}
 
-	@Override
-	public void handleMessage(Message msg) {
-	    if (msg.arg1 == RESULT_OK) {
-		activity.setFeed((RSSFeed) msg.obj);
-	    } else {
-		activity.goBlooey((Exception)msg.obj);
-	    }
-	}
+    	@Override
+    	public void handleMessage(Message msg) {
+    		if (msg.arg1 == RESULT_OK) {
+    			activity.setFeed((RSSFeed) msg.obj);
+    		} else {
+    			activity.goBlooey((Exception)msg.obj);
+    		}
+    	}
+    	
     }
 
     private class FeedAdapter extends BaseAdapter {
-	RSSFeed feed = null;
+    	RSSFeed feed = null;
 
-	FeedAdapter(RSSFeed feed) {
-	    super();
-	    this.feed = feed;
-	}
+    	FeedAdapter(RSSFeed feed) {
+    		super();
+    		this.feed = feed;
+    	}
 
-	public int getCount() {
-	    return feed.getItems().size();
-	}
+    	public int getCount() {
+    		return feed.getItems().size();
+    	}
 
-	public Object getItem(int position) {
-	    return feed.getItems().get(position);
-	}
+    	public Object getItem(int position) {
+    		return feed.getItems().get(position);
+    	}
 
-	public long getItemId(int position) {
-	    return position;
-	}
+    	public long getItemId(int position) {
+    		return position;
+    	}
 
-	public View getView(int position, View convertView, ViewGroup parent) {
-	    View row = convertView;
+    	public View getView(int position, View convertView, ViewGroup parent) {
+    		View row = convertView;
 
-	    if (row == null) {
-		LayoutInflater inflater = getLayoutInflater();
+    		if (row == null) {
+    			LayoutInflater inflater = getLayoutInflater();
 
-		row = inflater.inflate(android.R.layout.simple_list_item_1,
-			parent, false);
-	    }
+    			row = inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
+    		}
 
-	    RSSItem item = (RSSItem) getItem(position);
+    		RSSItem item = (RSSItem) getItem(position);
 
-	    ((TextView) row).setText(item.getTitle());
+    		((TextView) row).setText(item.getTitle());
 
-	    return row;
-	}
+    		return row;
+    	}
+    	
     }
 
     private static class InstanceState {
-	RSSFeed feed = null;
-	FeedHandler handler = null;
+    	RSSFeed feed = null;
+    	FeedHandler handler = null;
     }
+    
 }

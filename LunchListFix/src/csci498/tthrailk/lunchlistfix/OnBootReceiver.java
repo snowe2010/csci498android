@@ -28,7 +28,7 @@ public class OnBootReceiver extends BroadcastReceiver {
 		cal.set(Calendar.SECOND, 0);
 		cal.set(Calendar.MILLISECOND, 0);
 
-		if (cal.getTimeInMillis()<System.currentTimeMillis()) {
+		if (cal.getTimeInMillis() < System.currentTimeMillis()) {
 			cal.add(Calendar.DAY_OF_YEAR, 1);
 		}
 

@@ -101,12 +101,10 @@ public class DetailFragment extends Fragment {
 		if (item.getItemId() == R.id.feed) {
 			if (isNetworkAvailable()) {
 				Intent i = new Intent(getActivity(), FeedActivity.class);
-
 				i.putExtra(FeedActivity.FEED_URL, feed.getText().toString());
 				startActivity(i);
 			} else {
-				Toast.makeText(getActivity(), "Sorry, the Internet is not available",
-						Toast.LENGTH_LONG).show();
+				Toast.makeText(getActivity(), "Sorry, the Internet is not available", Toast.LENGTH_LONG).show();
 			}
 
 			return true;
@@ -129,6 +127,7 @@ public class DetailFragment extends Fragment {
 	}
 
 	LocationListener onLocationChange = new LocationListener() {
+		
 		public void onLocationChanged(Location fix) {
 			getHelper().updateLocation(restaurantId, fix.getLatitude(), fix.getLongitude());
 			location.setText(String.valueOf(fix.getLatitude()) + ", " + String.valueOf(fix.getLongitude()));
@@ -176,8 +175,7 @@ public class DetailFragment extends Fragment {
 		latitude = getHelper().getLatitude(c);
 		longitude = getHelper().getLongitude(c);
 
-		location.setText(String.valueOf(latitude) + ", "
-				+ String.valueOf(longitude));
+		location.setText(String.valueOf(latitude) + ", " + String.valueOf(longitude));
 		c.close();
 	}
 	
@@ -199,17 +197,17 @@ public class DetailFragment extends Fragment {
 
 			if (restaurantId == null) {
 				getHelper().insert(	name.getText().toString(), 
-								address.getText().toString(), 
-								type, 
-								notes.getText().toString(), 
-								feed.getText().toString());
+									address.getText().toString(), 
+									type, 
+									notes.getText().toString(), 
+									feed.getText().toString());
 			} else {
 				getHelper().update(	restaurantId, 
-								name.getText().toString(), 
-								address.getText().toString(), 
-								type,
-								notes.getText().toString(), 
-								feed.getText().toString());
+									name.getText().toString(), 
+									address.getText().toString(), 
+									type,
+									notes.getText().toString(), 
+									feed.getText().toString());
 			}
 		}
 	}

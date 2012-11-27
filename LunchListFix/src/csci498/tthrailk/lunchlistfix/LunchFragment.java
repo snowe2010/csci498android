@@ -149,5 +149,5 @@ public class LunchFragment extends ListFragment {
 	public interface OnRestaurantListener {
 		void onRestaurantSelected(long id);
 	}
+	
 }
-

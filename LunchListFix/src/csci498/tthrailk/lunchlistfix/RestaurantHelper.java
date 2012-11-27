@@ -10,8 +10,8 @@ import android.database.sqlite.SQLiteQueryBuilder;
 
 class RestaurantHelper extends SQLiteOpenHelper {
 
-	private static final String DATABASE_NAME 	= "lunchlist.db";
-	private static final int SCHEMA_VERSION 	= 3;
+	private static final String DATABASE_NAME = "lunchlist.db";
+	private static final int SCHEMA_VERSION = 3;
 
 	public RestaurantHelper(Context context) {
 		super(context, DATABASE_NAME, null, SCHEMA_VERSION);
@@ -101,4 +101,5 @@ class RestaurantHelper extends SQLiteOpenHelper {
 	public double getLongitude(Cursor c) {
 		return c.getDouble(7);
 	}
+	
 }

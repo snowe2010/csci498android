@@ -58,24 +58,25 @@ public class TimePreference extends DialogPreference {
 
 	@Override
 	protected Object onGetDefaultValue(TypedArray a, int index) {
-		return(a.getString(index));
+		return a.getString(index);
 	}
 
 	@Override
 	protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
-		String time=null;
+		String time = null;
 
 		if (restoreValue) {
-			if (defaultValue==null) {
-				time=getPersistedString("00:00");
+			if (defaultValue == null) {
+				time = getPersistedString("00:00");
 			} else {
-				time=getPersistedString(defaultValue.toString());
+				time = getPersistedString(defaultValue.toString());
 			}
 		} else {
-    	      time=defaultValue.toString();
+    	      time = defaultValue.toString();
 		}
 
-		lastHour=getHour(time);
-		lastMinute=getMinute(time);
+		lastHour = getHour(time);
+		lastMinute = getMinute(time);
 	}
+	
 }

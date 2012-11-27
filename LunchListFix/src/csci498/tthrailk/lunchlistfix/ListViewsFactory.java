@@ -14,6 +14,7 @@ public class ListViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 	private Context ctxt = null;
 	private RestaurantHelper helper = null;
 	private Cursor restaurants = null;
+	
 	public ListViewsFactory(Context ctxt, Intent intent) {
 		this.ctxt = ctxt;
 	}
@@ -47,6 +48,7 @@ public class ListViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 		extras.putString(LunchList.ID_EXTRA, String.valueOf(restaurants.getInt(0)));
 		i.putExtras(extras);
 		row.setOnClickFillInIntent(android.R.id.text1, i);
+	
 		return row;
 	}
 
@@ -74,6 +76,7 @@ public class ListViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
 	@Override
 	public void onDataSetChanged() {
-	// no-op
+		// no-op
 	}
+	
 }

@@ -26,12 +26,12 @@ public class LunchList extends FragmentActivity implements LunchFragment.OnResta
 	    	startActivity(i);
     	}
     	else {
-    		FragmentManager fragMgr=getSupportFragmentManager();
-    		DetailFragment details=(DetailFragment)fragMgr.findFragmentById(R.id.details);
+    		FragmentManager fragMgr = getSupportFragmentManager();
+    		DetailFragment details = (DetailFragment) fragMgr.findFragmentById(R.id.details);
     		
-    		if (details==null) {
-    			details=DetailFragment.newInstance(id);
-    			FragmentTransaction xaction=fragMgr.beginTransaction();
+    		if (details == null) {
+    			details = DetailFragment.newInstance(id);
+    			FragmentTransaction xaction = fragMgr.beginTransaction();
     	        
     			xaction
     				.add(R.id.details, details)

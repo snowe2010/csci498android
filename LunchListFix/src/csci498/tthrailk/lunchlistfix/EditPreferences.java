@@ -33,10 +33,11 @@ public class EditPreferences extends PreferenceActivity {
 	}
 
 	SharedPreferences.OnSharedPreferenceChangeListener onChange = new SharedPreferences.OnSharedPreferenceChangeListener() {
+		
 		public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
 			if ("alarm".equals(key)) {
 				boolean enabled = prefs.getBoolean(key, false);
-				int flag=(enabled ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED);
+				int flag = (enabled ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED);
 				ComponentName component=new ComponentName(EditPreferences.this, OnBootReceiver.class);
 
 				getPackageManager().setComponentEnabledSetting(component, flag,	PackageManager.DONT_KILL_APP);
@@ -51,5 +52,7 @@ public class EditPreferences extends PreferenceActivity {
 				OnBootReceiver.setAlarm(EditPreferences.this);
 			}
 		}
+		
 	};
+	
 }
