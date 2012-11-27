@@ -28,6 +28,7 @@ public class DetailFragment extends Fragment {
 	EditText address = null;
 	EditText notes = null;
 	EditText feed = null;
+	EditText phone = null;
 	RadioGroup types = null;
 	RestaurantHelper helper = null;
 	String restaurantId = null;
@@ -62,12 +63,13 @@ public class DetailFragment extends Fragment {
 	  
 	  locMgr = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
 	  
-	  name = (EditText)getView().findViewById(R.id.name);
-	  address = (EditText)getView().findViewById(R.id.addr);
-	  notes = (EditText)getView().findViewById(R.id.notes);
-	  types = (RadioGroup)getView().findViewById(R.id.types);
-	  feed = (EditText)getView().findViewById(R.id.feed);
-	  location = (TextView)getView().findViewById(R.id.location);
+	  name = (EditText) getView().findViewById(R.id.name);
+	  address = (EditText) getView().findViewById(R.id.addr);
+	  notes = (EditText) getView().findViewById(R.id.notes);
+	  types = (RadioGroup) getView().findViewById(R.id.types);
+	  feed = (EditText) getView().findViewById(R.id.feed);
+	  phone = (EditText) getView().findViewById(R.id.phone);
+	  location = (TextView) getView().findViewById(R.id.location);
 	  
 	  Bundle args = getArguments();
 	  if ( args != null ) {
@@ -80,6 +82,10 @@ public class DetailFragment extends Fragment {
 		save();
 		getHelper().close();
 		locMgr.removeUpdates(onLocationChange);
+		
+		
+		
+		
 		super.onPause();
 	}
 
@@ -166,7 +172,8 @@ public class DetailFragment extends Fragment {
 		address.setText(getHelper().getAddress(c));
 		notes.setText(getHelper().getNotes(c));
 		feed.setText(getHelper().getFeed(c));
-
+		phone.setText(getHelper().getPhone(c));
+		
 		if (getHelper().getType(c).equals("sit_down")) {
 			types.check(R.id.sit_down);
 		} else if (getHelper().getType(c).equals("take_out")) {
@@ -202,14 +209,16 @@ public class DetailFragment extends Fragment {
 									address.getText().toString(), 
 									type, 
 									notes.getText().toString(), 
-									feed.getText().toString());
+									feed.getText().toString(),
+									phone.getText().toString());
 			} else {
 				getHelper().update(	restaurantId, 
 									name.getText().toString(), 
 									address.getText().toString(), 
 									type,
 									notes.getText().toString(), 
-									feed.getText().toString());
+									feed.getText().toString(),
+									phone.getText().toString());
 			}
 		}
 	}
